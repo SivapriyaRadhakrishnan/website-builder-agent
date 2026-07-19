@@ -1,0 +1,26 @@
+const BaseAgent = require("../BaseAgent");
+
+class HtmlAgent extends BaseAgent {
+  constructor() {
+    super("HtmlAgent");
+  }
+
+  async execute() {
+    return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Generated Website</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>`;
+  }
+}
+
+module.exports = new HtmlAgent();
