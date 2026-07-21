@@ -27,10 +27,17 @@ Used In Route:
 
 ${route}
 
-Project Plan:
+Website Theme:
+
+${JSON.stringify(projectPlan.theme, null, 2)}
+
+Current Component Metadata:
+
+${JSON.stringify(component, null, 2)}
+
+Full Project Plan:
 
 ${JSON.stringify(projectPlan, null, 2)}
-
 ====================================================
 CRITICAL RULES (MUST FOLLOW)
 ====================================================
@@ -191,6 +198,33 @@ the function must be Footer.
 
 - If the component name is Navbar,
 the function must be Navbar.
+
+====================================================
+DESIGN CONTEXT
+====================================================
+
+You are generating ONE component.
+
+Follow the Website Theme exactly.
+
+Follow the Current Component Metadata exactly.
+
+The "design" object describes how the component should look.
+
+The "content" array describes what must appear inside the component.
+
+Generate a production-quality component using those instructions.
+
+Never replace the described content with generic placeholders like:
+
+- Link 1
+- Link 2
+- CTA Button
+- Brand
+
+Instead generate meaningful UI based on the website type.
+
+
 ====================================================
 COMPONENT RULES
 ====================================================

@@ -7,8 +7,8 @@ class PageAgent extends BaseAgent {
   }
 
   async execute(projectPlan, page) {
-const { title, componentName, fileName, route } = page;
-const prompt = `
+    const { title, componentName, fileName, route } = page;
+    const prompt = `
 You are a Senior React 19 Frontend Engineer.
 
 Generate ONLY the React page:
@@ -27,7 +27,7 @@ ${JSON.stringify(projectPlan, null, 2)}
 
 Available Components:
 
-${projectPlan.components.join(", ")}
+${projectPlan.components.map(c => c.name).join(", ")}
 
 ====================================================
 CRITICAL RULES (MUST FOLLOW)
@@ -208,7 +208,7 @@ Never use named imports.
 
 Import ONLY components that exist in:
 
-${projectPlan.components.join(", ")}
+${projectPlan.components.map(c => c.name).join(", ")}
 
 If Navbar is not in the list,
 do not import Navbar.
@@ -225,26 +225,37 @@ The primary responsibility of this page is to COMPOSE reusable components.
 Do NOT build the entire page using custom JSX.
 
 Instead, assemble the page using the reusable components generated for this project.
+Never assume a component exists.
 
+Import and render ONLY the components listed in Available Components.
+
+Do not generate imports for components that are not present in Available Components.
 
 Use ONLY the components that exist in:
 
-${projectPlan.components.join(", ")}
+${projectPlan.components.map(c => c.name).join(", ")}
 
-Compose the page in the following order whenever the components exist:
+Compose the page using ONLY the components provided in the "Available Components" list.
 
-1. Navbar
-2. HeroSection
-3. FeatureCard
-4. StatsSection
-5. Gallery
-6. Testimonial
-7. PricingCard
-8. FAQSection
-9. CTASection
-10. Newsletter
-11. ContactForm
-12. Footer
+Never invent component names.
+
+Never rename components.
+
+Use the exact component names from the planner.
+
+Example:
+
+If the planner generated:
+
+Hero
+
+then import:
+
+import Hero from "../components/Hero";
+
+Always use the exact component name from the planner.
+
+Never rename components.
 
 Rules:
 
@@ -260,7 +271,7 @@ Rules:
 Example imports:
 
 import Navbar from "../components/Navbar";
-import HeroSection from "../components/HeroSection";
+import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 
 Always use DEFAULT imports.
@@ -271,19 +282,14 @@ Never import from another folder.
 
 Example page:
 
-function ${componentName}() {
-  return (
-    <main className="min-h-screen bg-white">
-      <Navbar />
-      <HeroSection />
-      <Footer />
-    </main>
-  );
-}
+The page should compose the available reusable components.
 
+Generate the page dynamically based on the Available Components list.
+
+Do not copy this example literally.
 export default ${componentName};
 
-export default ${componentName};
+
 ====================================================
 TAILWIND RULES
 ====================================================
@@ -352,41 +358,15 @@ HOME PAGE RULES
 
 If this page is "Home":
 
-Always render:
+Render all components that exist in the Available Components list.
 
-Navbar (if available)
+Do NOT invent component names.
 
-HeroSection (if available)
+Use the exact component names provided by the planner.
 
-FeatureCard (if available)
+If a component is not available, do not import it.
 
-StatsSection (if available)
-
-Gallery (if available)
-
-Testimonial (if available)
-
-PricingCard (if available)
-
-FAQSection (if available)
-
-CTASection (if available)
-
-Newsletter (if available)
-
-ContactForm (if available)
-
-Footer (if available)
-
-The Home page should resemble a modern landing page.
-
-Do NOT generate placeholder content such as:
-
-<h1>Home</h1>
-
-<p>Welcome to our website.</p>
-
-Instead, compose the page using the available reusable components.
+The Home page should resemble a modern landing page composed of reusable components.
 ====================================================
 SELF VALIDATION
 ====================================================

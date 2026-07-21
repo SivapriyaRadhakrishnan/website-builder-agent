@@ -21,7 +21,18 @@ REQUIRED JSON FORMAT
 {
   "projectName": "",
   "framework": "React 19 + Vite",
-  "theme": "",
+  "theme": {
+  "websiteType": "",
+  "style": "",
+  "colorPalette": {
+    "primary": "",
+    "secondary": "",
+    "accent": ""
+  },
+  "typography": "",
+  "spacing": "",
+  "mood": ""
+},
   "description": "",
   "pages": [
   {
@@ -32,7 +43,21 @@ REQUIRED JSON FORMAT
   }
 ],
   "folders": [],
-  "components": [],
+  "components": [
+  {
+    "name": "Navbar",
+    "fileName": "Navbar",
+    "route": "/",
+    "purpose": "",
+    "description": "",
+    "props": [],
+    "design": {
+      "layout": "",
+      "style": "",
+      "content": []
+    }
+  }
+],
   "layout": {
     "navbar": true,
     "footer": true,
@@ -81,6 +106,13 @@ PLANNING RULES
    - secondaryColor
    - accentColor
 16. Generate complete Tailwind classes.
+17. Every component in the components array MUST include fully populated purpose, description and design fields.
+
+18. Never leave any string empty.
+
+19. Never leave arrays empty unless there are genuinely no values.
+
+20. The planner should describe what each component should contain, not just its name.
 
 Correct examples:
 
@@ -221,7 +253,94 @@ Example:
     "route": "/contact"
   }
 ]
+====================================================
+COMPONENT DESIGN RULES
+====================================================
 
+Every component MUST include complete design information.
+
+Each component object MUST contain:
+
+- name
+- fileName
+- route
+- purpose
+- description
+- props
+- design
+
+The design object MUST contain:
+
+- layout
+- style
+- content
+
+Rules:
+
+1. purpose
+   Explain why this component exists.
+
+2. description
+   Explain what the component does.
+
+3. layout
+   Describe the visual layout.
+
+4. style
+   Describe colors, spacing, mood and UI style.
+
+5. content
+   List everything that appears inside the component.
+
+The content array must be detailed.
+
+Good example for a restaurant website:
+
+{
+  "name": "Navbar",
+  "fileName": "Navbar",
+  "route": "/",
+  "purpose": "Main website navigation",
+  "description": "Responsive navigation bar for the restaurant website",
+  "props": [],
+  "design": {
+    "layout": "Horizontal navbar with logo on left and navigation links on right",
+    "style": "Dark background with gold accents, sticky navigation",
+    "content": [
+      "Restaurant Logo",
+      "Home",
+      "Menu",
+      "About",
+      "Gallery",
+      "Contact",
+      "Reserve Table Button"
+    ]
+  }
+}
+
+For Hero:
+
+{
+  "name": "Hero",
+  "fileName": "Hero",
+  "route": "/",
+  "purpose": "Introduce the restaurant",
+  "description": "Landing section with branding and call to action",
+  "props": [],
+  "design": {
+    "layout": "Two-column responsive hero",
+    "style": "Premium dark theme with elegant typography",
+    "content": [
+      "Headline",
+      "Restaurant tagline",
+      "Reserve Table button",
+      "View Menu button",
+      "Food image"
+    ]
+  }
+}
+
+Every component in the components array MUST include this information.
 ====================================================
 OUTPUT RULES
 ====================================================
