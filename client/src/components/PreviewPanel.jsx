@@ -1,5 +1,6 @@
 import { useBuilder } from "../hooks/useBuilder";
 import { previewWebsite } from "../services/api";
+import { useNavigate } from "react-router-dom";
 import {
   ArrowIcon,
   CheckIcon,
@@ -22,7 +23,7 @@ const getComponents = (result) =>
   result?.projectPlan?.components?.length ??
   result?.frontend?.componentsGenerated ??
   "—";
-
+const navigate = useNavigate();
 export default function PreviewPanel() {
   const { result, isGenerating, notify } = useBuilder();
 
@@ -33,15 +34,20 @@ export default function PreviewPanel() {
       if (data.success) {
         notify("Preview started successfully.");
 
-        window.open(data.previewUrl, "_blank");
+        navigate("/preview", {
+          state: {
+            previewUrl: data.previewUrl,
+            projectName: getName(result),
+          },
+        });
       } else {
         notify(data.message || "Unable to start preview.", "error");
       }
     } catch (error) {
       notify(
         error.response?.data?.message ||
-          error.message ||
-          "Unable to start preview.",
+        error.message ||
+        "Unable to start preview.",
         "error"
       );
     }
@@ -67,8 +73,8 @@ export default function PreviewPanel() {
           {isGenerating
             ? "Building"
             : result
-            ? "Complete"
-            : "Ready"}
+              ? "Complete"
+              : "Ready"}
         </div>
       </header>
 
