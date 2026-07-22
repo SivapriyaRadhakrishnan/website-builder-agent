@@ -23,16 +23,22 @@ const getComponents = (result) =>
   result?.projectPlan?.components?.length ??
   result?.frontend?.componentsGenerated ??
   "—";
-const navigate = useNavigate();
+
 export default function PreviewPanel() {
+  console.log("Navigating to preview...");
+  const navigate = useNavigate();
   const { result, isGenerating, notify } = useBuilder();
 
   const handlePreview = async () => {
+    console.log("Preview button clicked");
+
     try {
       const data = await previewWebsite();
 
+      console.log("Preview API Response:", data);
+
       if (data.success) {
-        notify("Preview started successfully.");
+        console.log("Before navigate");
 
         navigate("/preview", {
           state: {
@@ -40,17 +46,24 @@ export default function PreviewPanel() {
             projectName: getName(result),
           },
         });
+
+        console.log("After navigate");
       } else {
-        notify(data.message || "Unable to start preview.", "error");
+        console.log("Backend returned:", data);
       }
     } catch (error) {
-      notify(
-        error.response?.data?.message ||
-        error.message ||
-        "Unable to start preview.",
-        "error"
-      );
-    }
+  console.error("Preview Error:", error);
+  console.error("Response:", error.response);
+  console.error("Data:", error.response?.data);
+  console.error("Message:", error.message);
+
+  notify(
+    error.response?.data?.message ||
+    error.message ||
+    "Unable to start preview.",
+    "error"
+  );
+}
   };
 
   const handleDownload = () => {

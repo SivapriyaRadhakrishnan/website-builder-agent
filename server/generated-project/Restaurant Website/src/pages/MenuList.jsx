@@ -1,12 +1,14 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
+import Hero from '../components/Hero';
 
-const Home = () => {
+const MenuList = () => {
   return (
     <main>
       <Navbar />
+      <Hero />
     </main>
   );
 };
 
-export default Home;
+export default MenuList;

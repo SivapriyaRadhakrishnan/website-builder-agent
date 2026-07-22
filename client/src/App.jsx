@@ -8,11 +8,13 @@ function App() {
   return (
     <BrowserRouter>
       <BuilderProvider>
+
         <Routes>
           <Route path="/" element={<BuilderPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
           <Route path="/preview" element={<PreviewPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+
       </BuilderProvider>
     </BrowserRouter>
   )
