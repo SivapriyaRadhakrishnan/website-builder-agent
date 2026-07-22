@@ -4,10 +4,10 @@ const path = require("path");
 const CurrentProject = require("../config/currentProject");
 
 class PreviewService {
-  async startPreview() {
+ async startPreview(projectPath) {
     console.log("Starting Preview...");
 
-    const projectPath = CurrentProject.get();
+    
     console.log("Project Path:", projectPath);
 
     return new Promise((resolve, reject) => {
@@ -17,12 +17,15 @@ class PreviewService {
         console.log("Starting Vite...");
 
         const viteProcess = spawn("npm", ["run", "dev"], {
-          cwd: projectPath,
-          shell: true,
-          detached: false,
-          windowsHide: true,
-          stdio: ["ignore", "pipe", "pipe"],
-        });
+  cwd: projectPath,
+  shell: true,
+  windowsHide: true,
+  stdio: ["ignore", "pipe", "pipe"],
+  env: {
+    ...process.env,
+    FORCE_COLOR: "0",
+  },
+});
 
         let outputBuffer = "";
 
@@ -31,25 +34,34 @@ class PreviewService {
         viteProcess.stdout.on("data", (data) => {
           const output = data.toString();
 
-          console.log(output);
+         console.log("RAW:");
+console.log(JSON.stringify(output));
+
 
           outputBuffer += output;
+console.log("Buffer:", outputBuffer);
+         if (!resolved && outputBuffer.includes("Local:")) {
 
-          if (!resolved && outputBuffer.includes("Local:")) {
-            const match = outputBuffer.match(/http:\/\/localhost:\d+\//);
+    console.log("✅ Local found");
 
-            if (match) {
-              resolved = true;
+    const match = outputBuffer.match(/http:\/\/localhost:\d+\//);
 
-              console.log("Preview URL:", match[0]);
+    console.log("Match:", match);
 
-              resolve({
-                success: true,
-                previewUrl: match[0],
-                message: "Preview started successfully.",
-              });
-            }
-          }
+    if (match) {
+        console.log("Matched URL:", match[0]);
+
+        resolved = true;
+
+        resolve({
+            success: true,
+            previewUrl: match[0],
+            message: "Preview started successfully.",
+        });
+
+        return; // optional but recommended
+    }
+}
         });
         viteProcess.stderr.on("data", (data) => {
           console.error(data.toString());

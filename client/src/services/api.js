@@ -23,10 +23,15 @@ export const generateWebsite = async (prompt) => {
 // Preview Website
 // ======================
 
-export const previewWebsite = async () => {
-  const { data } = await api.post("/preview");
+export const previewWebsite = async (projectPath) => {
+  console.log("1. Calling Preview API");
 
-  return data;
+  const response = await api.post("/preview", {
+    projectPath,
+  });
+
+  console.log("2. API Response Received");
+
+  return response.data;
 };
-
 export default api;

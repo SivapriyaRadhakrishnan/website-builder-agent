@@ -30,42 +30,26 @@ export default function PreviewPanel() {
   const { result, isGenerating, notify } = useBuilder();
 
   const handlePreview = async () => {
-    console.log("Preview button clicked");
+  console.log("A. Preview button clicked");
 
-    try {
-      const data = await previewWebsite();
+  try {
+    const data = await previewWebsite(result.frontend.projectPath);
 
-      console.log("Preview API Response:", data);
+    console.log("B. Data:", data);
 
-      if (data.success) {
-        console.log("Before navigate");
-
-        navigate("/preview", {
-          state: {
-            previewUrl: data.previewUrl,
-            projectName: getName(result),
-          },
-        });
-
-        console.log("After navigate");
-      } else {
-        console.log("Backend returned:", data);
-      }
-    } catch (error) {
-  console.error("Preview Error:", error);
-  console.error("Response:", error.response);
-  console.error("Data:", error.response?.data);
-  console.error("Message:", error.message);
-
-  notify(
-    error.response?.data?.message ||
-    error.message ||
-    "Unable to start preview.",
-    "error"
-  );
-}
-  };
-
+    if (data.success) {
+      console.log("C. Navigating...");
+      navigate("/preview", {
+        state: {
+          previewUrl: data.previewUrl,
+          projectName: getName(result),
+        },
+      });
+    }
+  } catch (err) {
+    console.error("Preview Error:", err);
+  }
+};
   const handleDownload = () => {
     notify(
       "Download API will be connected in the next step.",

@@ -4,9 +4,11 @@ const preview = async (req, res) => {
   console.log("✅ Preview Controller");
 
   try {
-    const result = await previewService.startPreview();
+    const { projectPath } = req.body;
 
-    console.log("✅ Preview Service Finished");
+const result = await previewService.startPreview(projectPath);
+
+   console.log("Preview Service Returned:", result);
 
     res.json(result);
   } catch (error) {
